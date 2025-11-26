@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>5 Liquor – CC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    /* === Navbar layout general (desktop) === */
+    .navbar-content {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+  transition: all 0.3s ease;
+}
+
+
+    .left-nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+      transition: transform .4s ease, opacity .4s ease;
+    }
+
+    .left-nav.hidden-mobile {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Selector de categorías oscuro */
+    .custom-select { position: relative; }
+    .select-btn {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px;
+      padding: 8px 36px 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .25s;
+      min-width: 180px; /* más protagonista */
+    }
+    .select-btn:hover { background: rgba(255,255,255,0.25); }
+    .chevron { transition: transform .25s; }
+    .custom-select.active .chevron { transform: rotate(180deg); }
+
+    .options {
+      display: none;
+      position: absolute;
+      top: 110%; left: 0;
+      width: 230px;
+      background: rgba(34,32,33,0.98);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      backdrop-filter: blur(6px);
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 2000;
+    }
+    .custom-select.active .options { display: block; animation: fadeIn .2s ease; }
+
+    .options div {
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background .25s;
+    }
+    .options div:hover { background: rgba(255,255,255,0.12); }
+
+    .options::-webkit-scrollbar { width: 8px; }
+    .options::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 8px; }
+
+    /* Centro: búsqueda */
+    .nav-center {
+      width:100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px;
+      padding: 6px 12px;
+      width: 100%;
+      max-width: 520px;
+      transition: all .25s ease;
+    }
+    .search-bar:hover { background: rgba(255,255,255,0.2); }
+    .search-bar input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
+    .search-icon { margin-left: 8px; flex-shrink: 0; cursor: pointer; }
+
+    /* Derecha: botones extra */
+    .nav-right { display:flex; flex-direction: row !important; gap:10px; justify-content:flex-end; }
+
+    .nav-button {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: none;
+      background: #333;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    .nav-button:hover {
+      background: #555;
+      transform: translateY(-2px);
+    }
+
+    /* === Responsive búsqueda colapsable (móvil) === */
+    @media (max-width: 768px) {
+      .navbar-content {
+        position: relative;
+        overflow: visible;
+        grid-template-columns: 1fr; /* apilar en móvil */
+      }
+
+      .nav-right { display:flex; flex-direction: row !important; gap:10px; justify-content:flex-end; }
+
+      .search-bar {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        transition: width .4s ease, background .3s ease, border-radius .4s ease, transform .3s ease;
+        overflow: hidden;
+        z-index: 1001;
+        max-width: none;
+      }
+
+      .search-bar img.search-icon {
+        width: 18px;
+        height: 18px;
+        filter: invert(0) brightness(0);
+      }
+
+      .search-bar.expanded {
+        width: calc(100% - 40px);
+        border-radius: 8px;
+        padding: 6px 12px;
+        justify-content: flex-start;
+        background: rgba(34, 32, 33, 0.98);
+        top: 10px;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .search-bar.expanded img.search-icon {
+        filter: invert(1) brightness(2);
+      }
+
+      .search-bar input {
+        display: none;
+        width: 100%;
+        color: #fff;
+      }
+
+      .search-bar.expanded input {
+        display: block;
+      }
+
+      .search-bar.expanded .search-icon {
+        margin-left: 8px;
+      }
+
+      /* Grid móvil */
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 10px;
+      }
+      .card {
+        height: auto;
+        min-height: 340px;
+      }
+      .card-img { height: 160px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🔒 Popup de edad -->
+  <div id="ageModal" class="modal-overlay">
+    <div class="modal">
+      <img src="logo.svg" alt="5 Liquor Logo" class="modal-logo">
+      <h2>Verificación de edad</h2>
+      <p>Es necesario verificar tu edad para visualizar el contenido.</p>
+      <div class="modal-buttons">
+        <button id="btnSi" class="btn-yes">Soy mayor de edad</button>
+        <button id="btnNo" class="btn-no">No soy mayor de edad</button>
+      </div>
+      <p style="margin-top:16px;font-size:11px;color:#777;">Imágenes ilustrativas. Cambios sin previo aviso.</p>
+    </div>
+  </div>
+
+  <!-- 🧭 Navbar -->
+  <div class="navbar">
+    <div class="navbar-content">
+
+      <!-- IZQUIERDA: Logo + categorías -->
+      <div class="left-nav" id="leftNav">
+        <div class="logo">
+          <img src="LOGO.svg" alt="5 Liquor Logo" />
+        </div>
+
+        <div class="custom-select" id="categoryDropdown">
+          <button class="select-btn" id="dropdownBtn">
+            <span id="selectedText">Todas las categorías</span>
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="16" height="16" fill="#fff">
+              <path d="M5 7l5 6 5-6z"/>
+            </svg>
+          </button>
+          <div class="options" id="dropdownOptions"></div>
+        </div>
+      </div>
+
+      <!-- CENTRO: búsqueda -->
+      <div class="nav-center">
+        <div class="search-bar" id="searchBar">
+          <input id="searchInput" type="text" placeholder="Buscar por código, nombre o categoría...">
+          <img src="search.svg" alt="Buscar" class="search-icon" id="searchIcon" width="18" height="18">
+        </div>
+      </div>
+
+      <!-- DERECHA: botones extra -->
+     <div class="nav-right">
+    <button class="nav-button" onclick="location.href='https://www.5liquorstore.com/pages/contact'">
+        Contáctanos
+    </button>
+</div>
+
+
+    </div>
+  </div>
+
+  <!-- 🧱 Contenido principal -->
+  <div class="content">
+    <div class="grid" id="grid"></div>
+
+    <aside class="sidebar">
+      <div class="header-cotizar">
+        <h3>A cotizar</h3>
+        <div class="cliente-inline">
+          <input type="text" id="cliente" placeholder="Nombre del cliente...">
+        </div>
+      </div>
+      <div id="carrito"></div>
+      <div class="legal">Imágenes ilustrativas. Cambios sin previo aviso.</div>
+      <div class="actions">
+        <button class="btn-x" onclick="vaciar()">✖</button>
+        <button class="btn-wa" onclick="wa()">Enviar Cotización</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 🛒 Botón flotante -->
+  <button id="cartBtn" class="cart-fab" aria-label="Abrir carrito">
+    <img src="cart.svg" alt="Carrito" class="cart-icon">
+  </button>
+
+  <!-- 📱 Modal móvil -->
+  <div id="mobileCart" class="mobile-cart" aria-hidden="true">
+    <div class="mobile-cart-header">
+      <h3>A cotizar</h3>
+      <div class="cliente-inline" style="padding:5px 10px;">
+        <input type="text" id="cliente-mob" placeholder="Nombre del cliente...">
+      </div>
+      <button id="closeCart" class="close-cart" aria-label="Cerrar carrito">✖</button>
+    </div>
+    <div class="mobile-cart-body" id="mobileCarrito"><p class="vacio">Vacío</p></div>
+    <div class="legal">Imágenes ilustrativas. Cambios sin previo aviso.</div>
+    <div class="actions">
+      <button class="btn-x" onclick="vaciar()">✖</button>
+      <button class="btn-wa" onclick="wa()">Enviar Cotización</button>
+    </div>
+  </div>
+
+  <!-- ⚙️ Footer -->
+  <div class="footer">© 5 Liquor | Desarrollado por Miguel Molina con Magi.</div>
+
+  <!-- 📜 Scripts -->
+  <script src="js/fetchSheet.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // === Menú de categorías ===
+    function renderCategoryDropdown() {
+      const dropdown=document.getElementById("categoryDropdown");
+      const btn=document.getElementById("dropdownBtn");
+      const opts=document.getElementById("dropdownOptions");
+      const text=document.getElementById("selectedText");
+
+      const clases=Array.from(new Set(DATA.map(p=>p.clase))).sort();
+      opts.innerHTML=`<div data-clase="all">Todas las categorías</div>`+
+        clases.map(c=>`<div data-clase="${c}">${c[0].toUpperCase()+c.slice(1)}</div>`).join("");
+
+      btn.onclick=()=>dropdown.classList.toggle("active");
+      opts.onclick=e=>{
+        const el=e.target.closest("div[data-clase]");
+        if(!el)return;
+        filtro=el.dataset.clase;
+        text.textContent=el.textContent;
+        dropdown.classList.remove("active");
+        renderGrid(document.getElementById("searchInput").value.trim().toLowerCase());
+      };
+      document.addEventListener("click",e=>{
+        if(!dropdown.contains(e.target))dropdown.classList.remove("active");
+      });
+    }
+
+    // === Render del grid con búsqueda ===
+    function renderGrid(searchTerm="") {
+      const grid=document.getElementById("grid");
+      grid.innerHTML="";
+      const productos=DATA.filter(p=>{
+        const matchCategoria=filtro==="all"||p.clase===filtro;
+        const texto=`${p.nombre} ${p.clase}`.toLowerCase();
+        const codigoMatch=p.presentaciones.some(pr=>pr.codigo.toLowerCase().includes(searchTerm));
+        const textMatch=texto.normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(
+          searchTerm.normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+        );
+        return matchCategoria&&(searchTerm===""||codigoMatch||textMatch);
+      });
+      productos.forEach(p=>{
+        const pid=normalizeId(`${p.clase}-${p.imagen_name}-${p.nombre}`);
+        const presBtns=p.presentaciones.map((pr,i)=>
+          `<button class="pres-btn ${i===0?"active":""}" data-role="sel" data-pid="${pid}" data-pres="${pr.presentacion}" data-code="${pr.codigo}">${pr.presentacion}</button>`
+        ).join("");
+        if(!seleccion[pid])seleccion[pid]={presentacion:p.presentaciones[0].presentacion,codigo:p.presentaciones[0].codigo};
+        grid.insertAdjacentHTML("beforeend",`
+          <div class="card" data-pid="${pid}">
+            <div class="card-img">${imgWithFallback(p.clase,p.imagen_name)}</div>
+            <h3>${p.nombre}</h3>
+            <div class="presentaciones">${presBtns}</div>
+            <div class="cantidad">
+              <button data-role="dec" data-pid="${pid}">-</button>
+              <input id="cant-${pid}" type="number" value="1" min="1" max="999">
+              <button data-role="inc" data-pid="${pid}">+</button>
+            </div>
+            <button class="agregar" data-role="add" data-pid="${pid}">Agregar</button>
+          </div>
+        `);
+      });
+      grid.onclick=onGridClick;
+    }
+
+    // === Búsqueda en tiempo real ===
+    function setupSearch(){
+      const input=document.getElementById("searchInput");
+      input.addEventListener("input",()=>{
+        const term=input.value.trim().toLowerCase();
+        renderGrid(term);
+      });
+    }
+
+    // === Responsive búsqueda + animación ===
+    function setupResponsiveSearch() {
+      const bar=document.getElementById("searchBar");
+      const icon=document.getElementById("searchIcon");
+      const left=document.getElementById("leftNav");
+      icon.addEventListener("click",()=>{
+        if(window.innerWidth<=768){
+          bar.classList.toggle("expanded");
+          if(bar.classList.contains("expanded")){
+            left.classList.add("hidden-mobile");
+            setTimeout(()=>bar.querySelector("input").focus(),200);
+          } else {
+            left.classList.remove("hidden-mobile");
+            bar.querySelector("input").blur();
+          }
+        }
+      });
+    }
+
+    // === Inicialización ===
+    document.addEventListener("DOMContentLoaded",()=>{
+      setupAgeGate();
+      setupMobileCart();
+      getProducts().then(products=>{
+        DATA=products;
+        renderCategoryDropdown();
+        renderGrid();
+        setupSearch();
+        setupResponsiveSearch();
+        paint();
+      }).catch(()=>{
+        document.getElementById("grid").innerHTML="<p style='opacity:.6'>No se pudo cargar el catálogo.</p>";
+      });
+    });
+  </script>
+  <!-- Overlay de búsqueda premium -->
+<div id="searchOverlay">
+  <div id="closeSearch">✖</div>
+  <input id="overlaySearch" class="search-input" type="text" placeholder="Buscar producto...">
+</div>
+
+<!-- Botón FAB de búsqueda -->
+<div class="search-fab" id="openSearch">
+  <img src="search.svg" alt="Buscar">
+</div>
+
+<script>
+  const overlay = document.getElementById("searchOverlay");
+  const openBtn = document.getElementById("openSearch");
+  const closeBtn = document.getElementById("closeSearch");
+  const overlayInput = document.getElementById("overlaySearch");
+  const mainSearch = document.getElementById("searchInput");
+
+  openBtn.onclick = () => {
+    overlay.classList.add("active");
+    setTimeout(() => overlayInput.focus(), 150);
+  };
+
+  closeBtn.onclick = () => {
+    overlay.classList.remove("active");
+    overlayInput.value = "";
+    mainSearch.value = "";
+    renderGrid("");
+  };
+
+  overlayInput.addEventListener("input", () => {
+    const term = overlayInput.value.trim().toLowerCase();
+    mainSearch.value = term;
+    renderGrid(term);
+  });
+</script>
+</body>
+</html>
