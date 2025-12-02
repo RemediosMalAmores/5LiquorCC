@@ -11,14 +11,14 @@
 
   <style>
     /* === Navbar layout general (desktop) === */
-    .navbar-content {
+   .navbar-content {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: max-content 1fr max-content;
   align-items: center;
   width: 100%;
-  gap: 16px;
-  transition: all 0.3s ease;
+  gap: 10px;
 }
+
 
 
     .left-nav {
@@ -99,7 +99,7 @@
       border-radius: 8px;
       padding: 6px 12px;
       width: 100%;
-      max-width: 520px;
+      max-width: 100%;
       transition: all .25s ease;
     }
     .search-bar:hover { background: rgba(255,255,255,0.2); }
@@ -271,19 +271,37 @@
   <div class="content">
     <div class="grid" id="grid"></div>
 
-    <aside class="sidebar">
-      <div class="header-cotizar">
-        <h3>A cotizar</h3>
-        <div class="cliente-inline">
-          <input type="text" id="cliente" placeholder="Nombre del cliente...">
-        </div>
-      </div>
-      <div id="carrito"></div>
-      <div class="legal">Imágenes ilustrativas. Cambios sin previo aviso.</div>
-      <div class="actions">
-        <button class="btn-x" onclick="vaciar()">✖</button>
-        <button class="btn-wa" onclick="wa()">Enviar Cotización</button>
-      </div>
+     <aside class="sidebar">
+
+  <div class="header-cotizar">
+    <h3>A cotizar</h3>
+  </div>
+
+  <!-- Nombre -->
+  <div class="cliente-inline">
+    <input type="text" id="cliente" placeholder="Nombre del cliente...">
+  </div>
+
+  <!-- Correo -->
+  <div class="cliente-inline">
+    <input type="email" id="correo" placeholder="Correo del cliente...">
+  </div>
+
+  <!-- Carrito -->
+  <div id="carrito"></div>
+
+  <!-- Texto legal -->
+  <div class="legal">Imágenes ilustrativas. Cambios sin previo aviso.</div>
+
+  <!-- Botones -->
+  <div class="actions">
+    <button class="btn-x" onclick="confirmVaciar()">✖</button>
+    <button class="btn-wa" onclick="wa()">Enviar Cotización</button>
+  </div>
+
+</aside>
+
+
     </aside>
   </div>
 
@@ -299,12 +317,16 @@
       <div class="cliente-inline" style="padding:5px 10px;">
         <input type="text" id="cliente-mob" placeholder="Nombre del cliente...">
       </div>
+      <div class="cliente-inline" style="padding:5px 10px;">
+    <input type="email" id="correo-mob" placeholder="Correo del cliente...">
+</div>
+
       <button id="closeCart" class="close-cart" aria-label="Cerrar carrito">✖</button>
     </div>
     <div class="mobile-cart-body" id="mobileCarrito"><p class="vacio">Vacío</p></div>
     <div class="legal">Imágenes ilustrativas. Cambios sin previo aviso.</div>
     <div class="actions">
-      <button class="btn-x" onclick="vaciar()">✖</button>
+      <button class="btn-x" onclick="confirmVaciar()">✖</button>
       <button class="btn-wa" onclick="wa()">Enviar Cotización</button>
     </div>
   </div>
@@ -457,6 +479,24 @@
     renderGrid(term);
   });
 </script>
+<div id="alertBox" class="alert-box">
+  <div class="alert-content">
+    <p id="alertMessage"></p>
+    <button id="alertBtn">OK</button>
+  </div>
+</div>
+<div id="confirmBox" class="alert-box">
+  <div class="alert-content">
+    <p id="confirmMessage"></p>
+
+    <div class="confirm-buttons">
+      <button id="confirmCancel" class="btn-cancel">Cancelar</button>
+      <button id="confirmOk" class="btn-ok">Sí, vaciar</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
+
 
