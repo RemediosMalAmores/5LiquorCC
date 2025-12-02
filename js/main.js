@@ -5,7 +5,7 @@ let seleccion = {};
 let filtro = "all";
 
 const EXT = [".webp", ".jpg", ".jpeg", ".png"];
-const WHATSAPP = "529985036678";
+const WHATSAPP = "528120744794";
 
 // ======= Utils =======
 function normalizeId(text) {
@@ -361,4 +361,5 @@ function confirmVaciar() {
     vaciar(); // se ejecuta solo si el usuario acepta
   });
 }
+
 
