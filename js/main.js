@@ -5,7 +5,7 @@ let seleccion = {};
 let filtro = "all";
 
 const EXT = [".webp", ".jpg", ".jpeg", ".png"];
-const WHATSAPP = "528120744794";
+const WHATSAPP = "529985036678";
 
 // ======= Utils =======
 function normalizeId(text) {
@@ -180,16 +180,37 @@ function wa() {
   if (!carrito.length) return alert("Carrito vacío");
 
   const clienteDesktop = document.getElementById("cliente");
-  const clienteMobile = document.getElementById("cliente-mob");
-  const cliente = (clienteDesktop?.value || clienteMobile?.value || "").trim();
+const clienteMobile = document.getElementById("cliente-mob");
+const cliente = (clienteDesktop?.value || clienteMobile?.value || "").trim();
 
-  if (!cliente) {
-    const ok = confirm("No escribiste el nombre del cliente. ¿Deseas continuar sin él?");
-    if (!ok) return;
-  }
+const correoDesktop = document.getElementById("correo");
+const correoMobile = document.getElementById("correo-mob");
+const correo = (correoDesktop?.value || correoMobile?.value || "").trim();
 
-  let msg = "";
-  if (cliente) msg += `Cliente: ${cliente}\n\n`;
+// Validar correo obligatorio
+if (!correo) {
+  showAlert("Por favor ingresa un correo para continuar.");
+  return;
+}
+
+// Validar formato mínimo de correo
+const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!regexCorreo.test(correo)) {
+  showAlert("El correo no es válido. Verifícalo e intenta nuevamente.");
+  return;
+}
+
+if (!cliente) {
+  const ok = confirm("No escribiste el nombre del cliente. ¿Deseas continuar sin él?");
+  if (!ok) return;
+}
+
+let msg = "";
+if (cliente) msg += `Cliente: ${cliente}\n`;
+if (correo) msg += `Correo: ${correo}\n`;
+msg += `\n`;
+
+
 
   carrito.forEach(i => { msg += `${i.codigo}\t${i.cantidad}\n`; });
   msg += "\n";
@@ -214,12 +235,23 @@ function pulseFab() {
 
 // sincronizar nombre entre desktop/móvil
 document.addEventListener("input", e => {
+  // nombre
   if (e.target.id === "cliente" && document.getElementById("cliente-mob")) {
     document.getElementById("cliente-mob").value = e.target.value;
-  } else if (e.target.id === "cliente-mob" && document.getElementById("cliente")) {
+  } 
+  else if (e.target.id === "cliente-mob" && document.getElementById("cliente")) {
     document.getElementById("cliente").value = e.target.value;
   }
+
+  // correo
+  if (e.target.id === "correo" && document.getElementById("correo-mob")) {
+    document.getElementById("correo-mob").value = e.target.value;
+  } 
+  else if (e.target.id === "correo-mob" && document.getElementById("correo")) {
+    document.getElementById("correo").value = e.target.value;
+  }
 });
+
 
 // abrir/cerrar carrito móvil
 function setupMobileCart() {
@@ -265,7 +297,7 @@ function setupAgeGate() {
   };
 
   btnNo.onclick = () => {
-    window.location.href = "https://www.gob.mx/cofepris/articulos/advertencia-sobre-el-consumo-de-bebidas-alcoholicas";
+    window.location.href = "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGS.pdf";
   };
 
   // Atajo para reiniciar verificación
@@ -294,3 +326,39 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("grid").innerHTML = "<p style='opacity:.6'>No se pudo cargar el catálogo por el momento.</p>";
   });
 });
+function showAlert(msg) {
+  const box = document.getElementById("alertBox");
+  const message = document.getElementById("alertMessage");
+  const btn = document.getElementById("alertBtn");
+
+  message.textContent = msg;
+  box.classList.add("show");
+
+  btn.onclick = () => {
+    box.classList.remove("show");
+  };
+}
+function showConfirm(msg, callback) {
+  const box = document.getElementById("confirmBox");
+  const message = document.getElementById("confirmMessage");
+  const btnOk = document.getElementById("confirmOk");
+  const btnCancel = document.getElementById("confirmCancel");
+
+  message.textContent = msg;
+  box.classList.add("show");
+
+  btnCancel.onclick = () => {
+    box.classList.remove("show");
+  };
+
+  btnOk.onclick = () => {
+    box.classList.remove("show");
+    callback(); // ejecuta lo que el usuario confirmó
+  };
+}
+function confirmVaciar() {
+  showConfirm("¿Deseas vaciar el carrito?", () => {
+    vaciar(); // se ejecuta solo si el usuario acepta
+  });
+}
+
