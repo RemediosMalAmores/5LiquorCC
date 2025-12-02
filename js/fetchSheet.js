@@ -142,3 +142,4 @@ if (!checked) return null;
 
   return finalProducts;
 }
+
