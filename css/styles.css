@@ -1,17 +1,19 @@
-/* === Reset y tipografía === */
+/* ============================================================
+   RESET Y BASE
+   ============================================================ */
 * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-html, body { scroll-behavior: smooth; }
+html, body { scroll-behavior: smooth; margin: 0; padding: 0; }
 body {
   background: #F9FAFB;
   color: #222021;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin: 0;
-  transition: background 0.5s ease;
 }
 
-/* === Navbar === */
+/* ============================================================
+   NAVBAR
+   ============================================================ */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -19,383 +21,383 @@ body {
   background: rgba(34,32,33,0.95);
   backdrop-filter: blur(8px);
   color: #fff;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 0 20px;
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0,0,0,.15);
-  animation: fadeInDown .6s ease;
 }
-@keyframes fadeInDown {
-  from { transform: translateY(-20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+.logo img { height: 40px; border-radius: 6px; }
+
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================ */
+.content {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 95px !important; /* Compensa navbar real */
+  flex: 1;
 }
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo img { height: 40px; width: auto; border-radius: 6px; }
 
-/* === Chips === */
-.categorias { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.chip {
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: 1px solid #d1d5db;
-  background: #fff; color: #222021;
-  cursor: pointer; font-size: 13px;
-  transition: all .25s cubic-bezier(.25,.8,.25,1);
-}
-.chip:hover { background: #e5e7eb; transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0,0,0,.1); }
-.chip.active { background: #222021; color: #fff; border-color: #222021; }
-
-/* === Layout principal === */
-.content { display: flex; gap: 20px; padding: 20px; margin-top: 84px; flex: 1; animation: fadeIn .6s ease; }
-@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:none;} }
-
+/* ============================================================
+   GRID DE PRODUCTOS
+   ============================================================ */
 .grid {
   flex: 1;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
 }
 
-/* === Card producto === */
 .card {
-  background: #fff; border-radius: 12px;
+  background: #fff;
+  border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,.08);
-  padding: 14px; display: flex; flex-direction: column;
-  align-items: stretch; justify-content: space-between;
-  height: 380px; /* altura normalizada */
-  opacity: 0; transform: translateY(12px);
-  animation: appear .5s ease forwards;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+  transition: .25s;
 }
-@keyframes appear { to { opacity: 1; transform: none; } }
-
-.card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
 .card-img {
-  width: 100%; height: 200px;
-  display: flex; align-items: center; justify-content: center;
-  background: #FFFFFF; border-radius: 10px; overflow: hidden;
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
-.card-img img { max-height: 100%; max-width: 100%; object-fit: contain; transition: transform .3s ease; }
-.card:hover .card-img img { transform: scale(1.05); }
+.card-img img { max-height: 100%; object-fit: contain; }
 
-/* ✅ Nombre del producto autoajustable */
 .card h3 {
   font-weight: 600;
-  line-height: 1.2;
   text-align: center;
   margin: 10px 0 6px;
   min-height: 38px;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* máximo 2 líneas visibles */
-  line-clamp: 2; /* soporte moderno sin prefijo */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: font-size 0.2s ease;
-  font-size: clamp(12px, 1.6vw, 15px); /* se ajusta automáticamente */
+  font-size: clamp(12px, 1.6vw, 15px);
 }
 
-.presentaciones { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; justify-content: center; }
+.presentaciones {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* SEPARACIÓN ENTRE PRESENTACIONES Y CANTIDAD */
+.presentaciones {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px; /* ← FIX */
+}
+
+
 .pres-btn {
-  padding: 6px 12px; border-radius: 999px; border: 1px solid #d1d5db;
-  background: #fff; color: #222021; font-size: 12px; cursor: pointer;
-  transition: all .25s cubic-bezier(.25,.8,.25,1);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  font-size: 12px;
+  cursor: pointer;
 }
-.pres-btn:hover { background: #e5e7eb; }
-.pres-btn.active { background: #222021; color: #fff; border-color: #222021; }
+.pres-btn.active {
+  background: #222021;
+  color: #fff;
+  border-color: #222021;
+}
 
-.cantidad { display: flex; align-items: center; gap: 8px; margin: 8px 0; justify-content: center; }
+.cantidad { display: flex; justify-content: center; gap: 8px; }
 .cantidad button {
   width: 34px; height: 34px;
-  border: none; background: #e5e7eb; border-radius: 8px; font-size: 18px;
-  cursor: pointer; transition: background .25s, transform .15s;
+  background: #e5e7eb;
+  border-radius: 8px;
+  border: none;
 }
-.cantidad button:hover { background: #d1d5db; }
-.cantidad button:active { transform: scale(.9); }
-
 .cantidad input {
-  width: 70px; height: 34px; border: 1px solid #e5e7eb;
-  border-radius: 8px; text-align: center; font-size: 16px;
-  transition: border .25s;
+  width: 70px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
-.cantidad input:focus { border-color: #0c8b44; outline: none; }
 
 .agregar {
-  margin-top: auto; width: 100%; padding: 10px;
-  border: none; border-radius: 10px;
-  background: #222021; color: #fff; font-size: 14px; cursor: pointer;
-  transition: transform .2s, background .3s;
+  width: 100%;
+  padding: 10px;
+  background: #222021;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px; /* ← ESPACIO NUEVO */
 }
-.agregar:hover { background: #444; transform: translateY(-2px); }
 
-/* === Sidebar === */
+/* ============================================================
+   SIDEBAR (A COTIZAR) – VERSIÓN FINAL, DEPURADA
+   ============================================================ */
 .sidebar {
   width: 320px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,.08);
-  position: sticky;
-  top: 84px;
-  height: calc(100vh - 104px);
+  position: sticky !important;
+  top: 115px !important;                     /* Alineado perfecto con navbar */
+  height: calc(100vh - 130px) !important;    /* Ajuste de viewport */
+  overflow-y: auto !important;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  justify-content: flex-start;
-  animation: fadeInRight .5s ease;
-}
-@keyframes fadeInRight {
-  from {opacity:0; transform:translateX(20px);}
-  to {opacity:1; transform:none;}
 }
 
-/* === Cabecera "A cotizar" + campo cliente === */
+/* Título */
 .header-cotizar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
+  margin: 0 !important;
+  padding: 0 !important;
 }
+.header-cotizar h3 {
+  margin: 0;
+}
+
+/* Inputs */
 .cliente-inline {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex: 1;
+  margin: 6px 0 !important;
+  display: block !important;
 }
 .cliente-inline input {
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 6px 8px;
-  font-size: 0.95rem;
-  width: 100%;
-  transition: border .25s, box-shadow .25s;
-}
-.cliente-inline input:focus {
-  border-color: #0c8b44;
-  box-shadow: 0 0 4px rgba(12,139,68,0.35);
-  outline: none;
+  padding: 8px;
 }
 
-/* === Carrito === */
+/* Carrito */
 #carrito {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 0.9rem;
   overflow-y: auto;
-  overflow-x: hidden;
-  min-height: 60px;
-  transition: all .3s ease;
 }
-#carrito .item-carrito {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+/* Item */
+.item-carrito {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 10px 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  transition: background .25s, transform .15s;
-}
-#carrito .item-carrito:hover {
-  background: #f8f8f8;
-  transform: scale(1.01);
-}
-#carrito .info {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  color: #333;
-  flex-grow: 1;
-  overflow: hidden;
-  min-width: 0;
+  justify-content: space-between;
 }
-#carrito .nombre {
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-#carrito .desc, #carrito .cant {
-  font-size: 0.85rem;
-  color: #666;
-}
-#carrito .borrar {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  color: #d33;
-  cursor: pointer;
-  transition: color .25s, transform .15s;
-}
-#carrito .borrar:hover {
-  color: #a00;
-  transform: scale(1.2);
-}
+.borrar { background: none; border: none; font-size: 1.3rem; color: #d33; }
 
-/* Texto de carrito vacío centrado */
+/* Carrito vacío */
 #carrito .vacio {
-  color: #777;
   text-align: center;
-  font-style: italic;
   padding: 20px 0;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: #777;
 }
 
-/* === Aviso legal y botones === */
+/* Legal */
 .legal {
-  display: block;
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid #eee;
   font-size: 11px;
   color: #777;
+  margin-top: 10px !important;
   text-align: center;
-  line-height: 1.4;
 }
+
+/* Acción: vaciar / enviar */
 .actions {
   display: flex;
   gap: 10px;
   margin-top: 12px;
 }
 
-/* === Botones === */
 .btn-x {
-  width: 44px; height: 44px; border-radius: 50%; border: none;
-  background: #e53935; color: #fff; font-size: 18px; cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,.2);
-  transition: transform .2s, background .3s;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: #e53935;
+  border: none;
+  color: #fff;
 }
-.btn-x:hover { background: #c62828; transform: scale(1.05); }
-.btn-wa {
-  flex: 1; padding: 12px; border: none; border-radius: 30px;
-  background: #25D366; color: #fff; font-weight: 600; cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,.2);
-  transition: background .3s, transform .2s;
-}
-.btn-wa:hover { background: #1ebe5d; transform: translateY(-2px); }
 
-/* === Popup edad === */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(10px) saturate(140%);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9999;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.4s ease;
+.btn-wa {
+  flex: 1;
+  border: none;
+  background: #25D366;
+  color: #fff;
+  padding: 12px;
+  border-radius: 30px;
 }
-.modal-overlay.active { opacity: 1; pointer-events: all; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  text-align: center;
+  color: rgba(0,0,0,.4);
+  padding: 18px 0;
+}
+
+/* ============================================================
+   ACTIVADORES VISUALES ADICIONALES (FAB, ETC)
+   ============================================================ */
+.cart-fab {
+  position: fixed;
+  right: 30px; bottom: 30px;
+  width: 58px; height: 58px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; justify-content: center; align-items: center;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,.25);
+  cursor: pointer;
+}
+.cart-icon { width: 28px; height: 28px; }
+
+/* POPUP EDAD — CORRECTO, PROFESIONAL Y COMPATIBLE */
+.modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0,0,0,0.55) !important;
+  backdrop-filter: blur(10px);
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 99999 !important;
+}
+
 .modal {
   background: rgba(255,255,255,0.95);
-  border-radius: 14px; padding: 30px;
-  text-align: center; width: 100%; max-width: 360px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-  transform: translateY(20px);
-  animation: modalIn .5s ease forwards;
+  border-radius: 14px;
+  padding: 30px 20px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
 }
-@keyframes modalIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-.modal-logo { width: 90px; margin-bottom: 15px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.2)); }
-.modal-buttons { display: flex; justify-content: space-around; margin-top: 20px; }
-.btn-yes, .btn-no {
-  border: none; border-radius: 6px; padding: 10px 20px;
-  cursor: pointer; font-weight: 600;
-  transition: background 0.3s ease, transform .15s;
-}
-.btn-yes { background: #25D366; color: #fff; }
-.btn-yes:hover { background: #1ebe5d; transform: scale(1.05); }
-.btn-no { background: #e53935; color: #fff; }
-.btn-no:hover { background: #c62828; transform: scale(1.05); }
-
-/* === FAB del carrito === */
-.cart-fab {
-  position: fixed; bottom: 30px; right: 30px;
-  width: 58px; height: 58px; background: #25D366; border: none; border-radius: 50%;
-  display: flex; justify-content: center; align-items: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,.25);
-  cursor: pointer; z-index: 1600;
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-.cart-fab:hover { background: #1ebe5d; transform: scale(1.08); }
-.cart-fab.pulse { animation: pulse 600ms ease; }
-@keyframes pulse {
-  0% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,.15); }
-  50% { transform: scale(1.08); box-shadow: 0 10px 28px rgba(0,0,0,.2); }
-  100% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,.15); }
-}
-.cart-icon { width: 28px; height: 28px; transition: transform .3s ease; }
-.cart-fab:hover .cart-icon { transform: scale(1.15); }
-
-.cart-badge {
-  position: absolute; top: 6px; right: 6px;
-  background: #e53935; color: #fff; font-size: 11px; font-weight: 600;
-  width: 18px; height: 18px; border-radius: 50%;
-  display: flex; justify-content: center; align-items: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  animation: badgeBounce .4s ease;
-}
-@keyframes badgeBounce { 0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);} }
-
-/* === Footer === */
-.footer {
-  text-align: center; font-size: 12px; color: rgba(0,0,0,.4);
-  padding: 18px 0; animation: fadeInUp .8s ease;
-}
-@keyframes fadeInUp { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:none;} }
-
-
-
-/* === NAVBAR FINAL UNIFICADA === */
-.navbar-content {
-  display: grid !important;
-  grid-template-columns: 280px 1fr 160px;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
+/* Fix — Logo dentro del popup de edad */
+.modal-logo {
+  width: 90px !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block;
+  margin: 0 auto 15px auto !important;
 }
 
-.nav-left-extended {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+/* Evitar que reglas globales modifiquen las imágenes del modal */
+.modal img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+/* Restauración del comportamiento del popup */
+.modal-overlay {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity .3s ease;
 }
 
-.nav-center {
-  display: flex;
+.modal-overlay.active {
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+
+/* NO forzar display:flex cuando no está activo */
+.modal-overlay:not(.active) {
+  display: flex !important; /* se mantiene para centrar, pero overlay queda invisible */
+}
+/* ALERTA ESTÉTICA */
+.alert-box {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  display: none;
   justify-content: center;
+  align-items: center;
+  z-index: 99999;
 }
 
-.nav-center .search-bar {
-  max-width: none;
-  width: 100%;
-}
-
-.nav-right {
+.alert-box.show {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
 }
 
-.nav-button {
-  padding: 8px 10px;
-  background: #333;
+.alert-content {
+  background: #fff;
+  padding: 20px 24px;
+  border-radius: 12px;
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  animation: pop .25s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#alertMessage {
+  font-size: 15px;
+  margin-bottom: 16px;
+  color: #222;
+}
+
+#alertBtn {
+  background: #222021;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 13px;
   font-weight: 600;
-  transition: background .2s, transform .2s;
+  width: 100%;
 }
 
-.nav-button:hover {
-  background: #555;
-  transform: translateY(-2px);
+#alertBtn:hover {
+  background: #000;
+}
+/* --- Confirmación estética --- */
+
+.confirm-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn-cancel,
+.btn-ok {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: #e5e5e5;
+  color: #222;
+}
+
+.btn-cancel:hover {
+  background: #d4d4d4;
+}
+
+.btn-ok {
+  background: #d63b3b;
+  color: #fff;
+}
+
+.btn-ok:hover {
+  background: #b72f2f;
 }
